@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>mpc_ros</name>
+  <version>0.0.0</version>
+  <description>The mpc package</description>
+  <maintainer email="main@todo.todo">main</maintainer>
+  <license>TODO</license>
+  <buildtool_depend>catkin</buildtool_depend>
+</package>
