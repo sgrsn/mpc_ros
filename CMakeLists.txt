@@ -22,3 +22,6 @@ target_link_libraries(example1 ${catkin_LIBRARIES} ${Eigen3_LIBRARIES} qpOASES)
 
 add_executable(first_order_mpc src/first_order_mpc.cpp)
 target_link_libraries(first_order_mpc ${catkin_LIBRARIES} ${Eigen3_LIBRARIES} qpOASES)
+
+add_executable(second_order_mpc src/second_order_mpc.cpp)
+target_link_libraries(second_order_mpc ${catkin_LIBRARIES} ${Eigen3_LIBRARIES} qpOASES)
