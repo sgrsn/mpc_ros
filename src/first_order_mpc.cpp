@@ -41,12 +41,13 @@ int main()
   Eigen::MatrixXd Wex(x_dim * horizon, 1);
   Eigen::MatrixXd Qex(y_dim * horizon, y_dim * horizon);
   Eigen::MatrixXd Rex(u_dim * horizon, u_dim * horizon);
-  Eigen::MatrixXd I(x_dim, x_dim);
-  Eigen::MatrixXd Q(y_dim, x_dim);
-  Eigen::MatrixXd R(x_dim, u_dim);
-  I << 1;
+  Eigen::MatrixXd I = Eigen::MatrixXd::Identity(x_dim, x_dim);
+  Eigen::MatrixXd Q(y_dim, y_dim);
+  Eigen::MatrixXd R(u_dim, u_dim);
+  Eigen::MatrixXd w(x_dim, 1);
   Q << 1;
   R << 0.001;
+  w << 0.01;
 
   printf("compute Aex\r\n");
   // compute Aex
@@ -71,15 +72,13 @@ int main()
 
   printf("compute Wex\r\n");
   // compute Wex
-  Eigen::MatrixXd last_Wex(x_dim, u_dim * horizon);
-  last_Wex = I;
-  Wex.block<x_dim,u_dim>(0, 0) = I;
+  Eigen::MatrixXd last_Wex(x_dim, 1);
+  Wex.block<x_dim,1>(0, 0) = w;
+  last_Wex = w;
   for(int i = 1; i < horizon; i++)
   {
-    Eigen::MatrixXd I_A_pow_i(x_dim, u_dim);
-    I_A_pow_i = A * last_Wex;
-    Wex.block<x_dim,u_dim>(i*x_dim, 0) = I_A_pow_i;
-    last_Wex = I_A_pow_i;
+    last_Wex = A * last_Wex + w;
+    Wex.block<x_dim, 1>(i*x_dim, 0) = last_Wex;
   }
 
   printf("compute Cex\r\n");
